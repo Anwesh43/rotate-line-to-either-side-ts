@@ -200,3 +200,25 @@ class RotateLineToEitherSide {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    rltes : RotateLineToEitherSide = new RotateLineToEitherSide()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rltes.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rltes.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rltes.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
